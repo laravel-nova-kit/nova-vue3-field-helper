@@ -1,0 +1,42 @@
+{
+  "name": "laravel-nova-kit/nova-vue3-field-helper",
+  "description": "A Laravel Nova helper for creating your own fields.",
+  "keywords": [
+    "nova-kit",
+    "squidlab",
+    "laravel",
+    "nova",
+    "field",
+    "helper"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "nova-kit",
+      "email": "info@nova-kit.com",
+      "role": "Owner"
+    },
+    {
+      "name": "Roberto Negro",
+      "email": "roberto@nova-kit.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^8.0|^8.1|^8.2"
+  },
+  "require-dev": {
+    "laravel/nova": "~4.0"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://nova.laravel.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
