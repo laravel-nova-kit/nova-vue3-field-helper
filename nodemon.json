@@ -1,0 +1,11 @@
+{
+  "verbose": true,
+  "ignore": [
+    "dist",
+    "node_modules/**/node_modules",
+    ".git",
+    "vendor",
+    "vite.config.js.*.mjs"
+  ],
+  "ext": "js,mjs,cjs,ts,json,vue"
+}

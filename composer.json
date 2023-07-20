@@ -1,0 +1,42 @@
+{
+  "name": "squidlab/nova-vue3-helper",
+  "description": "A Laravel Nova helper for creating your own fields.",
+  "keywords": [
+    "squidlab",
+    "laravel",
+    "nova",
+    "vue3",
+    "helper",
+    "typescript"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "SquidLab",
+      "email": "info@squidlab.it",
+      "role": "Web Agency"
+    },
+    {
+      "name": "Roberto Negro",
+      "email": "roberto@squidlab.it",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^8.0|^8.1|^8.2"
+  },
+  "require-dev": {
+    "laravel/nova": "~4.0"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://nova.laravel.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
