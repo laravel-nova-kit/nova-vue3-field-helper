@@ -14,7 +14,7 @@ npm install @squidlab/nova-vue3-helper
 ```
 
 ## 2. Declare globals
-Create a `globals.d.ts` in the root of your javascript folder with this content: 
+Create a `globals.d.ts` in the root of your javascript folder with this content:
 ```typescript
 import { Nova as NovaType } from '@squidlab/nova-vue3-helper';
 
@@ -24,7 +24,35 @@ declare global {
 ```
 This allows you to use Nova utils such as [Nova.request](https://nova.laravel.com/docs/4.0/customization/frontend.html#nova-requests), [Nova.visit](https://nova.laravel.com/docs/4.0/customization/frontend.html#manual-navigation), [Nova's event bus](https://nova.laravel.com/docs/4.0/customization/frontend.html#event-bus), [global variables](https://nova.laravel.com/docs/4.0/customization/frontend.html#global-variables), etc, in a typed way.
 
-## 3. Define types
+# General purpose composables
+
+Some of the provided composables are generic and can be used in tools, fields, filters or cards.
+
+---
+
+#### useLocalization
+Typescript version of the original [useLocalization](https://nova.laravel.com/docs/4.0/customization/localization.html#frontend) in Laravel Nova.
+
+```typescript
+const { __ } = useLocalization();
+
+const translatedString = __('counter.increment');
+```
+
+---
+
+#### useTheme
+Utility, gives you the current theme (`light` or `dark`) so that you can update your component accordingly.
+
+```typescript
+const currentTheme = useTheme(); // the current theme ('light' or 'dark')
+```
+
+---
+
+# Creating custom fields
+
+## 1. Define types
 
 To work with your field with types, you'll have to define three different specific types:
 
@@ -33,7 +61,7 @@ To work with your field with types, you'll have to define three different specif
 - The type of the field: by extending `Field<DehydratedValue>` (where `DehydratedValue` is the dehydrated value defined in the previous step), which includes all the other standard values that belong to each field, you can set additional metadata that is sent to the field, for example by using `withMeta()` method or by additional data appended in the `jsonSerialize()` method;
 - The props of the field: by extending `FieldProps<Field>` (where `Field` is the type of the field defined in the previous step), you can set the type of props that are sent to the vue component of the field. If you're not changing Nova's internal behaviour, there are no easy/common way to add additional custom props, so you usually don't have to add other properties here.
 
-### 3.1 Example
+### 1.1 Example
 Let's suppose we implemented a field `Counter` that acts as a simple counter. Our field saves in the DB the count value as a json object like `{ "counter": 10 }`. In the model we're **not** casting the value to `array`, and in our field's `resolve()` method we're not de-serializing the value, so our Vue field will receive the data as string (`"{ \"counter\": 10 }"`). Our field defines also two methods `allowIncrement(bool $allowed =  true)` and `allowDecrement(bool $allowed =  true)`, which allow us to define if the field should show respectively a "plus" and a "minus" buttons to increment and decrement the counter, by adding meta to the field.
 
 The PHP code of this field could be like:
@@ -85,56 +113,45 @@ export interface YourField extends Field<YourDehydratedValue> {
 export type YourFieldProps = FieldProps<YourField>;
 ```
 
-## 4. Define field
+## 2. Define field
 Our Nova 4 fields are composed by 3 different components:
 
 - Index component: Used in the index view of the resource
 - Detail component: Used in the details view of the resource
 - Form component: Used in the update/create view of the resource
 
-The purpose of this package is to provide to the three components an easy way to work with: 
-- the field's props, 
-- the resolved value, 
-- the internal value (which can change by the user inputs), 
-- the submission of the new value, 
+The purpose of this package is to provide to the three components an easy way to work with:
+- the field's props,
+- the resolved value,
+- the internal value (which can change by the user inputs),
+- the submission of the new value,
 - Nova's events (e.g., for dependent fields changes),
 
-To achieve that, are available to the developers several composables that can be used in your components. Obviously you can choose which are useful and which are not depending on your needs. There are some higher level composables which are meant to be used for common easy fields which are working in a "standard" way. But if you need more granular control you can use the lower level composables (which are the same used by the higher level ones) and build your field as you want. 
+To achieve that, are available to the developers several composables that can be used in your components. Obviously you can choose which are useful and which are not depending on your needs. There are some higher level composables which are meant to be used for common easy fields which are working in a "standard" way. But if you need more granular control you can use the lower level composables (which are the same used by the higher level ones) and build your field as you want.
 
-### 4.1 Props
+### 2.1 Props
 
 To obtain the field props, you can use `defineProps` from vue by using the props type that you've defined before.
 
-For example: 
+For example:
 ```typescript
 const props = defineProps<YourFieldProps>();
 ``` 
 
-### 4.2 Events
+### 2.2 Events
 
 To define the emit function needed for emitting specific events used by Nova to handle your field, you can use `defineEmits` from vue by using the emit type provided in this package.
 
-For example: 
+For example:
 ```typescript
 import type { FieldEmitFn } from '@squidlab/nova-vue3-helper';
 
 const emit = defineEmits<FieldEmitFn>();
 ``` 
 
-### 4.3 High-level Composables
+## 3. High-level Composables
 
 Here's a list of the available composables that are abstractions of several other lower-level composables. They're ready to be used as-is without much tinkering, and are "all-inclusive". 99% of the times you should just use these, but if you're developing something more complex, or you need more granular control, you can use instead the lower-level composables with all the personalization you need.
-
----
-
-#### useLocalization
-Typescript version of the original [useLocalization](https://nova.laravel.com/docs/4.0/customization/localization.html#frontend) in Laravel Nova. 
-
-```typescript
-const { __ } = useLocalization();
-
-const translatedString = __('counter.increment');
-```
 
 ---
 
@@ -215,18 +232,9 @@ const {
 
 ---
 
-#### useTheme
-Utility, gives you the current theme (`light` or `dark`) so that you can update your component accordingly. 
+### 3.1 Example
 
-```typescript
-const currentTheme = useTheme(); // the current theme ('light' or 'dark')
-```
-
----
-
-### 4.5 Example
-
-Taking the [example 3.1](#31-example) as base, here is an example on how the javascript part of the **form** component could be implemented:
+Taking the [example 1.1](#11-example) as base, here is an example on how the javascript part of the **form** component could be implemented:
 
 ```typescript
 import { defineProps, ref } from 'vue';
@@ -297,7 +305,7 @@ const onInputChange = () => {
 };
 ```
 
-### 4.6 Low-level Composables
+## 4. Low-level Composables
 
 Here's a list of the low-level (of abstraction) composables. If you're developing something more complex, or you need more granular control, you can use these instead of the "all-inclusive" high-level composables.
 
@@ -490,7 +498,7 @@ useFieldVisibilityEvent(
 ---
 
 #### useDependentFormField
-This composable handles the sync of the field depending on other attributes on the form. In other words, it responds to changes of [dependent fields](https://nova.laravel.com/docs/4.0/resources/fields.html#dependent-fields) by updating the current field accordingly. It requires several properties that are given directly from the component props. 
+This composable handles the sync of the field depending on other attributes on the form. In other words, it responds to changes of [dependent fields](https://nova.laravel.com/docs/4.0/resources/fields.html#dependent-fields) by updating the current field accordingly. It requires several properties that are given directly from the component props.
 
 ```typescript
 const {
@@ -527,7 +535,7 @@ const {
 
 ---
 
-#### useEditMode
+#### useFormEditMode
 Check if the current form is a `create`, `update`, `attach`, `update-attach` form, and if it's regarding a pivot table.
 
 ```typescript
@@ -540,7 +548,7 @@ const {
 const {
   editMode, // 'create', 'update', 'attach' or 'update-attached' depending on the current form  
   pivot // boolean, true if attaching in a many-to-many relation (if editMode is 'attach' or 'update-attached')
-} = useEditMode(
+} = useFormEditMode(
     resourceId,
     relatedResourceName,
     relatedResourceId
@@ -548,6 +556,3 @@ const {
 ```
 
 ---
-
-
-
