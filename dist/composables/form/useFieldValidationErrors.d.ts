@@ -1,5 +1,5 @@
 import { Ref } from 'vue';
-import { Field } from '@/types';
+import { Field } from "../../types";
 export declare function useFieldValidationErrors<F extends Field>(errorsObj: Ref<{
     errors: {
         [field: string]: string[];

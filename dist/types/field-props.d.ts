@@ -1,4 +1,4 @@
-import { Field } from '@/types';
+import { Field } from "./";
 export interface FieldProps<F extends Field> {
     index: number;
     errors: {
