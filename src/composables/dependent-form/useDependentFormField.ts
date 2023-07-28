@@ -5,7 +5,7 @@ import forIn from 'lodash/forIn';
 import pickBy from 'lodash/pickBy';
 import identity from 'lodash/identity';
 import { useFormEditMode } from '@/composables';
-import { AxiosResponse, isCancel } from 'axios';
+import { AxiosRequestConfig, AxiosResponse, isCancel } from 'axios';
 import { getFieldAttributeEventName } from '../events';
 import { Field } from '@/types';
 
@@ -75,7 +75,7 @@ export function useDependentFormField<
     let response;
 
     try {
-      response = (await Nova.request({
+      response = await Nova.request<AxiosRequestConfig, F>({
         method: 'patch',
         url: syncFieldEndpoint.value,
         data: {
@@ -95,7 +95,7 @@ export function useDependentFormField<
           identity
         ),
         signal: syncAbortController.value.signal,
-      })) as unknown as AxiosResponse<F>;
+      });
     } catch (e) {
       if (isCancel(e)) {
         return;
