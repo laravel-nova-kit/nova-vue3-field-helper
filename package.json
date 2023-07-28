@@ -100,5 +100,6 @@
     "form-backend-validation": "^2.4.0",
     "lodash": "^4.17.21",
     "vuex": "^4.1.0"
-  }
+  },
+  "version": "1.0.3"
 }
