@@ -1,5 +1,9 @@
 # Nova Vue 3 Helper
+![nova-vue3-helper](nova-vue3-helper.jpg)
+
 > An opinionated helper for creating your customized fields for Laravel Nova 4 with Typescript and Vue 3's Composition API.
+
+If you want to speed up the implementation of your custom Nova field, also check out our [squidlab-it/nova-field-template](https://github.com/squidlab-it/nova-field-template) repository for a production-ready template.
 
 # Setup
 
