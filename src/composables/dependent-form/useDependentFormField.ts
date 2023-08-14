@@ -5,14 +5,14 @@ import forIn from 'lodash/forIn';
 import pickBy from 'lodash/pickBy';
 import identity from 'lodash/identity';
 import { useFormEditMode } from '@/composables';
-import { AxiosRequestConfig, AxiosResponse, isCancel } from 'axios';
+import { AxiosRequestConfig, isCancel } from 'axios';
 import { getFieldAttributeEventName } from '../events';
 import { Field } from '@/types';
 
 export function useDependentFormField<
   F extends Field<DV>,
   V,
-  DV extends string | Blob
+  DV extends string | Blob,
 >(
   currentValue: Ref<V>,
   initialValue: Ref<V>,

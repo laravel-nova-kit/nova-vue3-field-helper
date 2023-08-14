@@ -11,7 +11,7 @@ export function useDetailField<
   P extends FieldProps<F>,
   F extends Field<DV>,
   DV extends string | Blob,
-  V
+  V,
 >(
   props: P,
   hydrate: (field: F) => V,

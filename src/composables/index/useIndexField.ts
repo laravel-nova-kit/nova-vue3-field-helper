@@ -6,7 +6,7 @@ export function useIndexField<
   P extends FieldProps<F>,
   F extends Field<DV>,
   DV extends string | Blob,
-  V
+  V,
 >(props: P, hydrate: (field: F) => V) {
   const { field, formUniqueId } = toRefs(props);
 
