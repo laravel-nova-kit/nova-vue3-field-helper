@@ -18,4 +18,5 @@ export interface FieldProps<F extends Field> {
   mode: 'form' | 'modal' | 'action-modal' | 'action-fullscreen';
   showHelpText: boolean;
   syncEndpoint?: string;
+  nested?: boolean;
 }

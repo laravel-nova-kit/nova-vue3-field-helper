@@ -1,6 +1,7 @@
 import { computed, Ref } from 'vue';
 import { Errors } from 'form-backend-validation';
 import { Field } from '@/types';
+import { useRepeaterField } from '@/composables/repeater';
 
 export function useFieldValidationErrors<F extends Field>(
   errorsObj: Ref<{
@@ -9,7 +10,11 @@ export function useFieldValidationErrors<F extends Field>(
   field: Ref<F>,
   showErrors?: Ref<boolean>
 ) {
-  const validationKey = computed(() => field.value.validationKey);
+  const { nestedValidationKey } = useRepeaterField(field);
+
+  const validationKey = computed(
+    () => nestedValidationKey.value ?? field.value.validationKey
+  );
 
   const allErrors = computed(() => new Errors(errorsObj.value.errors ?? {}));
 
