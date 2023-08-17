@@ -3,7 +3,9 @@
 
 > An opinionated helper for creating your customized fields for Laravel Nova 4 with Typescript and Vue 3's Composition API.
 
-If you want to speed up the implementation of your custom Nova field, also check out our [squidlab-it/nova-field-template](https://github.com/squidlab-it/nova-field-template) repository for a production-ready template.
+With this package you can simplify the development of your custom fields, tools and cards for Laravel Nova 4 while supporting Typescript and Vue 3's Composition API. Fully compatible with the latest Nova 4 features such as Repeater fields, dependent fields, etc. 
+
+If you want to speed up even more the implementation of your custom Nova field, also check out our [squidlab-it/nova-field-template](https://github.com/squidlab-it/nova-field-template) repository for a production-ready template.
 
 # Setup
 
@@ -556,6 +558,22 @@ const {
     resourceId,
     relatedResourceName,
     relatedResourceId
+);
+```
+
+---
+
+#### useRepeaterField
+This composable handles compatibility with [Repeater fields](https://nova.laravel.com/docs/resources/repeater-fields.html). 
+
+```typescript
+const {
+  viaParent, // attribute name of the parent Repeater field 
+  index, // index of the current row in the Repeater
+  nestedValidationKey, // validation key of the field when contained in a Repeater field
+  nestedAttribute, // full attribute name, e.g. "repeater_name[0][field_name]"
+} = useRepeaterField<YourField>(
+  currentField, // current field (synced with changes triggered by dependent fields)
 );
 ```
 
